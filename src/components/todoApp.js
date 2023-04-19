@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Todo from "./todo";
+import './todoApp.css';
+
 
 export default function TodoApp() {
     //title estado que queremos obtener y setTitle estado que queremos cambiar
@@ -28,8 +30,24 @@ export default function TodoApp() {
         //Agregar en una nueva lista los todos
         temp.unshift(newTodo);
         setTodos(temp);
+
+        setTitle("");
     }
 
+    //función para actualizar el titulo de nuestors todos
+    function handleUpdate(id, value) {
+        const temp = [...todos];
+        const item = temp.find(item => item.id == id);
+        item.title = value;
+        setTodos(temp);
+
+    }
+
+    function handleDelete(id){
+        const temp = todos.filter(item => item.id != id);
+        setTodos(temp);
+
+    }
 
     return (<div className="todoContainer">
         <form className="todoCreateForm" onSubmit={handleSubmit}>
@@ -38,7 +56,7 @@ export default function TodoApp() {
             <input
                 onClick={handleSubmit}
                 type="submit"
-                alue="Create todo"
+                value="Create todo"
                 className="buttonCreate"
             />
 
@@ -47,7 +65,7 @@ export default function TodoApp() {
         <div className="todosContainer">
             {
                 todos.map(item => (
-                    <Todo key={ item.id } item = {item} />
+                    <Todo key={item.id} item={item} onUpdate={handleUpdate} onDelete={handleDelete} />
                 ))
             }
 
