@@ -5,32 +5,37 @@ import './todoApp.css';
 
 export default function TodoApp() {
     //title estado que queremos obtener y setTitle estado que queremos cambiar
-    const [title, setTitle] = useState('hola');
+    const [title, setTitle] = useState('Escribe un To do');
 
-    //Estado de lista de tareas
+    //Estado de lista de arreglos de tareas, se inicializa con
+    //los corchetes de arreglo
     const [todos, setTodos] = useState([]);
 
+    //Obtenemos el valor del input y accedemos a la props de value.
     function handleChange(e) {
         const value = e.target.value;
 
         setTitle(value);
     }
 
+    //Anulamos que la página se refresque con el botón de envio.
     function handleSubmit(e) {
         e.preventDefault();
 
+        //Objeto
         const newTodo = {
             id: crypto.randomUUID(),
             title: title,
             completed: false
         };
 
-        //Hacemos una copia de todos
+        //la variable temp es una copia de todos
         const temp = [...todos];
-        //Agregar en una nueva lista los todos
+        //Unshift agrgamos un elemento al inicio de una lista
         temp.unshift(newTodo);
         setTodos(temp);
 
+        //Borrar texto al enviar un elemento a la lista
         setTitle("");
     }
 
@@ -43,7 +48,8 @@ export default function TodoApp() {
 
     }
 
-    function handleDelete(id){
+    //Función para eliminar un elemeneto 
+    function handleDelete(id) {
         const temp = todos.filter(item => item.id != id);
         setTodos(temp);
 
@@ -61,6 +67,13 @@ export default function TodoApp() {
             />
 
         </form>
+
+        {/* Mostramos los elementos de la lista.
+         la func. map hace un recorrido de todos los elementos y devuelve una
+         función.(regresamos una estructura jsx para que react pueda
+        renderizar en la pantalla). item es un arreglo de objetos
+        que tienen las 3 props(id, title, completed)
+        */}
 
         <div className="todosContainer">
             {
